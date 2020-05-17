@@ -30,6 +30,8 @@ async def on_raw_reaction_add(payload):
             role = discord.utils.get(guild.roles, name='gta5')
         elif payload.emoji.name == 'pubg':
             role = discord.utils.get(guild.roles, name='pubg')
+        elif payload.emoji.name == 'csgo':
+            role = discord.utils.get(guild.roles, name='csgo')
         else:
             role = discord.utils.get(guild.roles, name = payload.emoji.name)
 
@@ -66,6 +68,8 @@ async def on_raw_reaction_remove(payload):
             role = discord.utils.get(guild.roles, name='gta5')
         elif payload.emoji.name == 'pubg':
             role = discord.utils.get(guild.roles, name='pubg')
+        elif payload.emoji.name == 'csgo':
+            role = discord.utils.get(guild.roles, name='csgo')
         else:
             role = discord.utils.get(guild.roles, name = payload.emoji.name)
 
