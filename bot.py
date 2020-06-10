@@ -20,9 +20,15 @@ from collections import OrderedDict, deque, Counter
 
 Bot = commands.Bot(command_prefix = ".")
 
+Bot.remove_command('help')
+
 @Bot.event
 async def on_ready():
     print("Даров, бать")
+
+@Bot.event
+async def on_command_error(ctx, error):
+    pass
 
 @Bot.command(pass_context= True)
 @commands.has_permissions(manage_messages =True)
