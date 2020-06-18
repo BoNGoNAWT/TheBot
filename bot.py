@@ -35,7 +35,10 @@ async def on_command_error(ctx, error):
 async def clear(ctx, amount = 100):
     await ctx.channel.purge(limit = amount)
  
-
+@Bot.event
+async def on_member_join(member):
+    role = discord.utils.get(member.guild.roles, id=int('620915693289734166'))
+    await member.add_roles(role)
 
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator = True)
