@@ -17,41 +17,19 @@ import time
 from datetime import timedelta
 from collections import OrderedDict, deque, Counter
 
+
 Bot = commands.Bot(command_prefix = ".")
 
 Bot.remove_command('help')
 
+
 @Bot.event
 async def on_ready():
-    print('Bot online!')
-    
+    print("Даров, бать")
 
 @Bot.event
 async def on_command_error(ctx, error):
     pass
-
-
-
-@Bot.event
-async def on_member_join(member):
-    role = discord.utils.get(member.guild.roles, id=int('581177746475057153'))
-    await member.add_roles(role)
-    guild=member.guild
-    mention=member.mention
-
-    embed = discord.Embed(title=str("-===New User===-"), colour=discord.Color.blurple(), description=str('{} joined of this server'.format(mention)))
-    embed.set_thumbnail(url=f"{member.avatar_url}")
-    embed.set_author(name=f"{member.name}", icon_url=f"{member.guild.icon_url}")
-    embed.timestamp = datetime.datetime.utcnow()
-    embed.add_field(name='ID :', value=member.id)
-    embed.add_field(name='Никнейм :', value=member.display_name)
-    embed.add_field(name='Количество людей :', value=len(list(guild.members)))
-    embed.add_field(name='В дискорде с :', value=member.created_at.strftime("%a %#b %B %Y, %I:%M %p UTC"))
-    embed.add_field(name='Присоединился к нам :', value=member.joined_at.strftime("%a %#b %B %Y, %I:%M %p UTC"))
-
-    channel = discord.utils.get(member.guild.channels, id=int("580775363601235989"))
-    await channel.send(embed=embed)
-
 
 @Bot.command(pass_context= True)
 @commands.has_permissions(manage_messages =True)
@@ -109,6 +87,18 @@ async def unban(ctx, *, member):
         await ctx.send(f'Великая печать бана снята с {user.menttion}')
 
         return
+
+@Bot.command(pass_context = True)
+async def vcreate(ctx, *, member):
+    await ctx.channel.purge(limit = 1)
+    limit = 5
+    name = f"{member.name}"
+    #category = Bot.get_channel('727502849172439061')
+    channel1 = await member.guild.create_text_channel(name)
+    await member.move_to(channel1)
+    await channel1.set_permissions(Bot.user, connect=True,read_messages=True)
+    await channel1.edit(name= name, user_limit = limit)
+    await ctx.send(f'{member.mention}, канал создан')
 
 @Bot.command(pass_context= True)
 async def help(ctx):
@@ -208,9 +198,6 @@ async def kick_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send(embed = discord.Embed(title = '{} укажите аргумент!'.format(ctx.author.name), colour = discord.Color.red()))
 
-
-
-
-
 token = os.environ.get('BOT_TOKEN')
 Bot.run(str(token))
+        
