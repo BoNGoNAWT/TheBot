@@ -22,6 +22,16 @@ Bot = commands.Bot(command_prefix = ".")
 
 Bot.remove_command('help')
 
+initial_extensions = ['cogs.voice']
+
+if __name__ == '__main__':
+    for extension in initial_extensions:
+        try:
+            Bot.load_extension(extension)
+        except Exception as e:
+            print(f'Failed to load extension {extension}.', file=sys.stderr)
+            traceback.print_exc()
+
 @Bot.event
 async def on_ready():
     print("Даров, бать")
@@ -35,10 +45,7 @@ async def on_command_error(ctx, error):
 async def clear(ctx, amount = 100):
     await ctx.channel.purge(limit = amount)
  
-@Bot.event
-async def on_member_join(member):
-    role = discord.utils.get(member.guild.roles, id=int('620915693289734166'))
-    await member.add_roles(role)
+
 
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator = True)
