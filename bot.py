@@ -36,7 +36,18 @@ async def on_command_error(ctx, error):
 async def clear(ctx, amount = 100):
     await ctx.channel.purge(limit = amount)
  
-
+@Bot.event
+async def on_voice_state_update(member,before,after):
+    if after.channel.id == 727774763522457640:
+        for guild in Bot.guilds:
+            maincategory = discord.utils.get(guild.categories, id=727502849172439061)
+            channel2 = await guild.create_voice_channel(name=f"{memeber.display_name}",category = maincategory)
+            await channel2.set_permissions(member,connect=True,mute_members=True,move_members=True,manage_channels=True)
+            await member.move_to(channel2)
+            def check(x,y,z):
+                return len(channel2.members) == 0
+            await Bot.wait_for('voice_state_update',check=check)
+            await chnnel2.delete()
 
 @Bot.command(pass_context = True)
 @commands.has_permissions(administrator = True)
